@@ -1,0 +1,11 @@
+.breed-cards {
+  background-color: #E2F8FA;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 0px;
+  justify-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  
+}
+

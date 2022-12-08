@@ -1,0 +1,115 @@
+.box-header {
+  background-color: #E2F8FA;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+.navbar {
+  margin: 0;
+  width: 100%;
+  padding: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Todos los estilos del input bucar  */
+.search {
+  background: white;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(202, 202, 202);
+  border-radius: 60px;
+  padding: 6px 8px;
+}
+.search input {
+  background: transparent;
+  align-items: center;
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 5px 20px;
+  font-size: 1.8rem;
+}
+input::placeholder {
+  color: grey;
+}
+.search button img {
+  width: 19px;
+}
+.search button {
+  border: 0;
+  border-radius: 50%;
+  width: 37px;
+  height: 37px;
+  background: #F73563;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilo del boton crear nueva raza */
+.create-button {
+  border: 2px solid #F73563;
+  background-color: white; 
+  border-radius: 45px;
+  font-weight: bold;
+  font-size: 1.6rem;
+  padding: 12px 25px;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px #A2ECEC;
+}
+.create-button:hover {
+  background-color: #F73563;
+  color: white;
+}
+
+/* Estilos para la barra de filtros */
+.box-filter {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5em 0;
+  border-top:  1px solid rgb(202, 202, 202);
+  border-bottom:  1px solid rgb(202, 202, 202);
+}
+.filter {
+  border: 1px solid rgb(202, 202, 202);
+  border-radius: 60px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+.filter-button {
+  border: 0;
+  outline: none;
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 12px 25px;
+  cursor: pointer;
+}
+.filter-button.n1 {
+ border-radius: 45px 0 0 45px ;
+}
+.filter-button.n2 {
+  border-right: 1px solid rgb(202, 202, 202);
+  border-left: 1px solid rgb(202, 202, 202);
+}
+.filter-button.n3 {
+ border-radius:0 45px 45px 0 ;
+}
+.filter-button:hover {
+  background-color: #F73563;
+  color: white;
+}
+
+
+
+
+/* .main-cards {
+  font-size: 2rem;
+  padding: 2%;
+  display: flex;
+  justify-content: space-around;
+  
+} */
