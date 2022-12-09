@@ -123,11 +123,11 @@ const NewBreed = ({ tempers, getTempers }) => {
                 </div>
                 <div className="newBreed-input">
                   <label>Altura mínima: </label>
-                  <input type="number" min="0" name="height_min" placeholder="Altura en cm" required onChange={handleChange}/>
+                  <input type="number"  name="height_min" placeholder="Altura en cm" required onChange={handleChange}/>
                 </div>
                 <div className="newBreed-input">
                   <label>Altura máxima: </label>
-                  <input type="number" min="0" name="height_max" placeholder="Altura en cm" required onChange={handleChange}/>
+                  <input type="number"  name="height_max" placeholder="Altura en cm" required onChange={handleChange}/>
                 </div>
                 <div className="newBreed-input">
                   <label>Peso mínimo: </label>

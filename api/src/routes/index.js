@@ -33,7 +33,7 @@ router.get('/dogs/', async (req, res) => {
           name: breed.name,
           weight: `${breed.weight_min} - ${breed.weight_max}`,
           height: `${breed.height_min} - ${breed.height_max}`,
-          years_life: `${breed.life_span} years`,
+          years_life: `${breed.years_life} years`,
           temperaments,
           img: null,
           source: 'db',
@@ -46,7 +46,6 @@ router.get('/dogs/', async (req, res) => {
     const apiBreeds = await axios.get(
       queryName ? `https://api.thedogapi.com/v1/breeds/search?q=${queryName}` : 'https://api.thedogapi.com/v1/breeds/' 
     );
-    // console.log(apiBreeds);
     apiBreeds.data.map(breed => {
       return {
         id: breed.id,
@@ -73,18 +72,64 @@ router.get('/dogs/', async (req, res) => {
 // Esto va a ir en la ruta anterior nada más.
 router.get('/dogs?name="..."', (req, res) => {
   res.status(200)
-  // Tienes que recibir el nombre como queryParameter (ojo que no es un parámetro normal lee documetacion de express)
-  // En base a ese parámetro:
-  //  - Consultas en tu base de datos todos los registros con ese nombre
-  //  - Consultas en la API https://api.thedogapi.com/v1/breeds/search?q={raza_perro}
-  //  - Combinas los resultados y los devuelves
 });
 
-router.get('/dogs/:idRaza/', (req, res) => {
+router.get('/dogs/:idRaza/', async (req, res) => {
   const { idRaza } = req.params;
-  const { quantity } = req.query;
-
-  res.status(200)
+  if (isNaN(idRaza)) {
+    // Busco en API
+    try { 
+      const breeds = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${idRaza}`);
+      const parsedBreed = breeds.data.map(breed => {
+        return {
+          id: breed.id,
+          name: breed.name,
+          weight: breed.weight.metric,
+          height: breed.height.metric,
+          years_life: breed.life_span,
+          temperaments: breed.temperament,
+          img: breed.image?.url,
+          source: 'api',
+        }
+      }).find((breed) => breed.name === idRaza);
+      if (parsedBreed) {
+        res.status(200).json(parsedBreed);   
+      } else {
+        res.status(404).json({ error: 'La raza no se encontró' });
+      }
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
+  } else {
+    // Busco en BD
+    try {
+      seq.conn.sync({ alter: true }).then(async () => {
+        const breed = await seq.Dog.findByPk(idRaza, {
+          include: [{
+            model: seq.Temper,
+            attributes: ['name'],
+          }],
+        });
+        if (breed) {
+          const temperaments = breed.Tempers.map(temperament => temperament.name).join(',');
+          res.status(200).json({
+              id: breed.id,
+              name: breed.name,
+              weight: `${breed.weight_min} - ${breed.weight_max}`,
+              height: `${breed.height_min} - ${breed.height_max}`,
+              years_life: `${breed.years_life} years`,
+              temperaments,
+              img: null,
+              source: 'db',
+          });
+        } else {
+          res.status(404).json({ error: 'La raza no se encontró' });
+        }
+      });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
+  }
 });
 
 router.post('/dogs/', (req, res) => {

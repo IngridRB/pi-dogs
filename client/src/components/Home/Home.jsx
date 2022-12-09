@@ -18,21 +18,13 @@ const Home = ({ filteredBreeds, filterBreeds, getBreeds, tempers, getTempers }) 
 
   const [inputState, setInputState] = useState('');
 
-  // const [pagina, setPagina] = useState(1)
-  // const [porPagina, setPorPagina] = useState(8)
-
-  // const maximo = breeds.length / porPagina;
-  // console.log(maximo)
-
-  // Creale un estado local especial al cuadro de búsqueda
-
   function handleInputChange(e) {
     setInputState(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    getBreeds(inputState);
+    getBreeds(inputState.trim());
   }
 
   function filterResults() {
@@ -90,8 +82,10 @@ const Home = ({ filteredBreeds, filterBreeds, getBreeds, tempers, getTempers }) 
             </select>
             <select className="filter-button n3" defaultValue={'all'} name="sortBy" onChange={handleFiltersChange}>
               <option value="all">Ordenar por: </option>
-              <option value="alpha">Orden Alfabético</option>
-              <option value="weight">Peso</option>
+              <option value="alpha-asc">Orden Alfabético Ascendente</option>
+              <option value="alpha-desc">Orden Alfabético Descendente</option>
+              <option value="weight-asc">Peso Ascendente</option>
+              <option value="weight-desc">Peso Descendente</option>
             </select>
           </div>
         </div>

@@ -33,7 +33,6 @@ export function getTempers() {
     })
       .then(response => response.json())
       .then(json => {
-          console.log(json);
           dispatch({
             type: "GET_TEMPERS",
             payload: json,
@@ -50,6 +49,8 @@ export function getBreedDetail(idRaza) {
       .then(response => response.json())
       .then(json => {
         dispatch({ type: "GET_BREED_DETAILS", payload: json });
+      }).catch(err => {
+        dispatch({ type: "GET_BREED_DETAILS", payload: err });
       });
   }
 }

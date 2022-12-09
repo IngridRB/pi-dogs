@@ -2,7 +2,7 @@ const initialState = {
   breedsLoaded: [],
   filteredBreeds: [],
   tempersLoaded: [],
-  breedDetail: {}
+  breedDetail: {},
 };
 
 function rootReducer(state = initialState, action) {
@@ -15,7 +15,6 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === "FILTER_BREEDS") {
-    console.log(action.payload);
     const filteredBreeds = state.breedsLoaded.filter((breed) => {
       return (
         (action.payload.temperament === 'all' || breed.temperaments?.includes(action.payload.temperament)) &&
@@ -23,18 +22,25 @@ function rootReducer(state = initialState, action) {
       );
     }).sort(
       (breedA, breedB) => {
-        if (action.payload.sortBy === 'weight') {
+        if (action.payload.sortBy === 'weight-asc' || action.payload.sortBy === 'weight-desc') {
           const weightA = breedA.weight.split('-');
           const weightB = breedB.weight.split('-');
-          return parseInt(weightA[0]) - parseInt(weightB[0]);
+          return action.payload.sortBy === 'weight-asc' ? (
+            parseInt(weightA[0]) - parseInt(weightB[0])
+          ) : (
+            parseInt(weightB[0]) - parseInt(weightA[0])
+          );
         }
-        if (action.payload.sortBy === 'alpha') {
-          return breedA.name < breedB.name;
+        if (action.payload.sortBy === 'alpha-asc' || action.payload.sortBy === 'alpha-desc') {
+          return action.payload.sortBy === 'alpha-asc' ? (
+            breedA.name.localeCompare(breedB.name)
+          ) : (
+            breedB.name.localeCompare(breedA.name)
+          );
         }
         return 0;
       }
     );
-    console.log(filteredBreeds);
     return {
       ...state,
       filteredBreeds,
